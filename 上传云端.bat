@@ -1,0 +1,1 @@
+@echo  ‰»Îcommitset /p pw=input git commit -m %pw%pause
