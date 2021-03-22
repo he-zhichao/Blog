@@ -1,25 +1,45 @@
 <template>
   <div class="apptop">
-    <div class="navbar">
+    <div id="navbar" :class="navbar_class">
       <div class="resive height-50px flex justify-between align-center">
-        <div>LOGO
+        <div class="logo">
+          <img class="logo" src="https://pic.gksec.com/2021/03/22/fa6a4f74ef9b1/logo.png" alt="">
         </div>
         <div>
-          <vs-button class="navbar-menu" color="dark" type="line" size="large">博客</vs-button>
-          <vs-button class="navbar-menu" color="dark" type="line" size="large">项目</vs-button>
-          <vs-button class="navbar-menu" color="dark" type="line" size="large">开源</vs-button>
+          <vs-button class="navbar-menu" color="dark" type="line" size="large" @click="PageChange('/')">首页
+          </vs-button>
+          <vs-button class="navbar-menu" color="dark" type="line" size="large" @click="PageChange('/Classification')">分类
+          </vs-button>
+          <vs-button class="navbar-menu" color="dark" type="line" size="large" @click="PageChange('/TimeAxis')">时光轴
+          </vs-button>
         </div>
 
         <div class="flex align-center">
           <vs-button class="navbar-button" color="dark" type="line" size="large" @click="SearchShowOpen()">
             <span class="icon iconfont icon-search navbar-icon"></span>
           </vs-button>
-          <vs-button class="navbar-button" color="dark" type="line" size="large">
-            <span class="icon iconfont icon-user navbar-icon"></span>
-          </vs-button>
+
+          <el-popover placement="bottom" width="240" trigger="click">
+            <div class="login-range">
+              <h1 class="margin-lr-xs">登录</h1>
+              <div class="width-100 flex justify-center">
+                <div>
+                  <vs-input class="margin-bottom-xs" size="large" color="dark" placeholder="账户"
+                    v-model="login_account" />
+                  <vs-input class="margin-bottom-xs" size="large" color="dark" placeholder="密码"
+                    v-model="login_passwords" />
+                  <vs-button class="width-100" size="large" color="dark" type="filled">进入后台</vs-button>
+                </div>
+              </div>
+            </div>
+            <vs-button slot="reference" class="navbar-button" color="dark" type="line" size="large">
+              <span class="icon iconfont icon-user navbar-icon"></span>
+            </vs-button>
+          </el-popover>
         </div>
       </div>
     </div>
+
     <transition name="co-fade-in-linear">
       <div class="search" v-show="search_show">
         <div class="flex justify-between padding-top padding-lr">
@@ -32,8 +52,9 @@
         </div>
         <div class="search-range">
           <div class="search-border">
-            <div class="icon iconfont icon-search navbar-icon text-bold"></div>
-            <input class="search-input" type="text" placeholder="搜索的内容" v-model="search_message" @keyup.enter="Search()">
+            <div></div>
+            <input class="search-input" type="text" placeholder="搜索的内容" v-model="search_message"
+              @keyup.enter="Search()">
             <div class="icon iconfont icon-error text-bold" style="font-size: 15px;"></div>
           </div>
         </div>
@@ -48,7 +69,10 @@ export default {
     return {
       value: '',
       search_show: false,
-      search_message: ''
+      search_message: '',
+      navbar_class: 'navbar',
+      login_account: '',
+      login_passwords: ''
     }
   },
   methods: {
@@ -60,7 +84,10 @@ export default {
     },
     Search () {
       console.log(this.search_message)
-    }
+    },
+    PageChange (path) {
+      this.$router.push(path)
+    },
   }
 }
 </script>
@@ -73,9 +100,13 @@ export default {
   z-index: 999;
 }
 
+.logo {
+  height: 50px;
+}
+
 .navbar {
   width: 100%;
-  height: 60px;
+  height: 75px;
 
   position: absolute;
 
@@ -83,18 +114,57 @@ export default {
   justify-content: center;
   align-items: center;
 
-  border-bottom: 1px solid #eaecef;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  transition: all 0.2s linear;
+}
+
+.navbar .navbar-menu,
+.navbar .navbar-button {
+  color: #fff;
+  font-size: 17.5px;
+  border-color: transparent;
+}
+
+.navbar:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.1s linear;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+.navbar:hover .navbar-menu,
+.navbar:hover .navbar-button {
+  color: #000;
+  border-color: transparent;
+}
+
+.navbar-scroll {
+  width: 100%;
+  height: 75px;
+
+  position: absolute;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.2s linear;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+.navbar-scroll .navbar-menu,
+.navbar-scroll .navbar-button {
+  font-size: 17.5px;
+  border-color: transparent;
 }
 
 .navbar-menu {
-  height: 60px;
-  margin: 0 25px;
+  height: 75px;
+  margin: 0 15px;
   font-weight: bold;
 }
 
 .navbar-button {
-  height: 60px;
+  height: 75px;
   margin: 0 5px;
   font-weight: bold;
 }
@@ -138,6 +208,12 @@ export default {
   height: 40px;
   font-size: 20px;
   font-weight: bold;
+}
+
+.login-range h1 {
+  color: #000;
+  font-size: 20px;
+  margin-bottom: 10px;
 }
 
 input::-webkit-input-placeholder {

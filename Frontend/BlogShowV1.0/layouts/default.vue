@@ -1,10 +1,17 @@
 <template>
   <div>
-    <Nuxt />
+    <Navbar />
+    <transition name="co-fade-in-linear">
+      <Nuxt />
+    </transition>
   </div>
 </template>
 
 <style>
+.nuxt-range {
+  padding-top: 60px;
+}
+
 html {
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif;
