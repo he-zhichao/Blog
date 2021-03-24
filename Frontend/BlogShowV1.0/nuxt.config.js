@@ -29,8 +29,10 @@ export default {
   css: [
     // Concise-CSS 框架
     '~/assets/css/concise.css',
-    // Concise-CSS 框架
+    // IconFont 资源引入
     '~/assets/css/iconfont.css',
+    // 项目博客效果
+    '~/assets/css/blog.css',
     // ElementUI 框架
     'element-ui/lib/theme-chalk/index.css'
   ],

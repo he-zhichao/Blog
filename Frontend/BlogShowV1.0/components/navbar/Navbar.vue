@@ -8,8 +8,20 @@
         <div>
           <vs-button class="navbar-menu" color="dark" type="line" size="large" @click="PageChange('/')">首页
           </vs-button>
-          <vs-button class="navbar-menu" color="dark" type="line" size="large" @click="PageChange('/Classification')">分类
-          </vs-button>
+
+          <el-popover placement="bottom" trigger="hover" v-model="classification_show">
+            <div class="flex justify-center align-center" v-for="item in classification_data" :key="item.id">
+              <span class="icon iconfont navbar-icon" :class="'icon-'+item.icon"
+                style="margin-bottom: 5px; margin-right: 5px;"></span>
+              <vs-button class="class-menu" color="dark" type="line"
+                @click="PageChangeClass('Classification', item.classification)">
+                {{item.text}}
+              </vs-button>
+            </div>
+            <vs-button slot="reference" class="navbar-menu" color="dark" type="line" size="large">
+              分类
+            </vs-button>
+          </el-popover>
           <vs-button class="navbar-menu" color="dark" type="line" size="large" @click="PageChange('/TimeAxis')">时光轴
           </vs-button>
         </div>
@@ -19,17 +31,16 @@
             <span class="icon iconfont icon-search navbar-icon"></span>
           </vs-button>
 
-          <el-popover placement="bottom" width="240" trigger="click">
+          <el-popover placement="bottom" width="240" trigger="click" v-model="login_show">
             <div class="login-range">
               <h1 class="margin-lr-xs">登录</h1>
-              <div class="width-100 flex justify-center">
-                <div>
-                  <vs-input class="margin-bottom-xs" size="large" color="dark" placeholder="账户"
-                    v-model="login_account" />
-                  <vs-input class="margin-bottom-xs" size="large" color="dark" placeholder="密码"
-                    v-model="login_passwords" />
-                  <vs-button class="width-100" size="large" color="dark" type="filled">进入后台</vs-button>
-                </div>
+              <div class="width-100" style="padding: 0 5px;">
+                <el-input class="margin-bottom-xs" v-model="login_account" placeholder="账户" clearable>
+                </el-input>
+                <el-input class="margin-bottom-xs" v-model="login_passwords" placeholder="密码" clearable show-password>
+                </el-input>
+                <vs-button class="width-100" size="large" color="dark" type="filled" @click="AdminOpen()">进入后台
+                </vs-button>
               </div>
             </div>
             <vs-button slot="reference" class="navbar-button" color="dark" type="line" size="large">
@@ -71,8 +82,22 @@ export default {
       search_show: false,
       search_message: '',
       navbar_class: 'navbar',
+      login_show: false,
       login_account: '',
-      login_passwords: ''
+      login_passwords: '',
+      classification_show: false,
+      classification_data: [
+        {
+          text: 'Vue.JS',
+          classification: 'vue',
+          icon: 'vuejs-line',
+        },
+        {
+          text: '其他',
+          classification: 'other',
+          icon: 'modular',
+        }
+      ]
     }
   },
   methods: {
@@ -88,6 +113,19 @@ export default {
     PageChange (path) {
       this.$router.push(path)
     },
+    PageChangeClass (path, value) {
+      this.$router.push(path)
+      this.$store.commit('ChangeClassKey', value)
+      // console.log(value)
+      // if (this.$route.name != 'Classification') {
+      //   this.$router.push(path)
+      // }
+      // this.$store.commit('ChangeClassKey', value)
+    },
+    AdminOpen () {
+      this.$router.push('/Admin')
+      this.login_show = false
+    }
   }
 }
 </script>
@@ -157,6 +195,10 @@ export default {
   border-color: transparent;
 }
 
+.navbar-none {
+  display: none;
+}
+
 .navbar-menu {
   height: 75px;
   margin: 0 15px;
@@ -210,10 +252,23 @@ export default {
   font-weight: bold;
 }
 
+.login-range {
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
 .login-range h1 {
   color: #000;
   font-size: 20px;
   margin-bottom: 10px;
+}
+
+.class-menu {
+  width: 80px;
+  font-weight: bold;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  border-color: transparent !important;
 }
 
 input::-webkit-input-placeholder {

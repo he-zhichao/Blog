@@ -1,18 +1,14 @@
 <template>
   <div>
-    <div id="wrap" class="content-range">
-      <div class="content-image">
-        <div>
-          <h1 class="glitch margin-bottom">
-            Hi, JingWenxing
-          </h1>
-
-          <div class="flex justify-center">
-            <div class="subtitle">
-              生命太短暂，不要去做一些根本没有人想要的东西
-            </div>
+    <div id="wrap" class="class-range">
+      <div class="class-pageimage-range">
+        <div class="class-pageimage-overlay flex justify-center align-center">
+          <div class="class-pageimage-text">
+            分类：{{class_key}}
           </div>
         </div>
+        <img class="class-pageimage"
+          src="https://pic.gksec.com/2021/03/24/07931018161d6/pexels-jaymantri-4827_gaitubao_2200x555.jpg" alt="">
       </div>
       <Bloglist :blog_lists="blog_lists" />
     </div>
@@ -23,6 +19,7 @@
 export default {
   data () {
     return {
+      class_key: '',
       blog_lists: [
         {
           id: '1000001',
@@ -39,6 +36,17 @@ export default {
   mounted () {
     document.querySelector("#navbar").className = 'navbar'
     document.querySelector("#wrap").addEventListener('scroll', this.handleScroll)
+    this.class_key = this.$store.state.class_key
+  },
+  computed: {
+    listData () {
+      return this.$store.state.class_key;
+    }
+  },
+  watch: {
+    listData (val) {
+      this.class_key = this.$store.state.class_key
+    }
   },
   methods: {
     handleScroll () {
@@ -56,40 +64,42 @@ export default {
       }
     },
   },
-  filters: {
-    formatDate: function (value) {
-      var date = new Date(value * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-      var Y = date.getFullYear() + '-';
-      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-      var D = (date.getDate() + 1 < 10 ? '0' + (date.getDate() + 1) : date.getDate() + 1);
-      return Y + M + D;
-    }
-  },
 }
 </script>
 
 <style>
-.content-range {
-  /* padding-top: 60px; */
+.class-range {
   width: 100%;
   height: 100vh;
-
-  background: url(https://pic.gksec.com/2021/03/21/01ae6a91650a7/bgss.jpg)
-    no-repeat center;
-
-  background-size: cover;
 
   overflow-y: scroll;
 }
 
-.content-image {
-  width: 100%;
-  height: 100vh;
+.class-pageimage-range {
+  position: relative;
+  height: 300px;
+}
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.class-pageimage {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.class-pageimage-overlay {
+  width: 100%;
+  height: 300px;
+
+  position: absolute;
+  z-index: 12;
 
   background: rgba(0, 0, 0, 0.3);
+}
+
+.class-pageimage-text {
+  color: #fff;
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 60px;
 }
 </style>
