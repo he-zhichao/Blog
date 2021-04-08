@@ -1,7 +1,8 @@
 <template>
-  <div>
-    <div id="wrap" class="content-range">
-      <div class="content-image">
+  <div id="screentop" class="home-front">
+    <div class="home-front-show">
+      <div class="home-front-image"></div>
+      <div class="home-front-overlay">
         <div>
           <h1 class="glitch margin-bottom">
             Hi, JingWenxing
@@ -14,78 +15,65 @@
           </div>
         </div>
       </div>
-      <Bloglist :blog_lists="blog_lists" />
+    </div>
+    <div style="height: 200px;">
+      123
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      blog_lists: [
-        {
-          id: '1000001',
-          title: '测试随笔',
-          classification: '技术',
-          time: '1616398493',
-          read: '11',
-          comment: '1',
-          text: '摘要：这个作业属于哪个课程 班级连接 这个作业要求在哪里 作业要求 这个作业的目标 通过阅读《构建之法》对软件工程概念初步了解 学号 20188387 读后疑问 1、为什么需要源代码的管理？[第11章 软件设计与实现P242] 软件的质量=程序的质量+软件工程的质量。软件的源代码管理工具加上构建系统，能保',
-        },
-      ]
-    }
-  },
   mounted () {
-    document.querySelector("#navbar").className = 'navbar'
-    document.querySelector("#wrap").addEventListener('scroll', this.handleScroll)
+    // document.querySelector("#id-navbar-front").className = 'navbar-front-base'
+    document.querySelector("#screentop").addEventListener('scroll', this.handleScroll)
   },
   methods: {
+    PageChange (path) {
+      this.$router.push(path)
+    },
     handleScroll () {
-      let scrollTop = document.querySelector("#wrap").scrollTop;
+      let scrollTop = document.querySelector("#screentop").scrollTop;
 
       if (scrollTop > 0) {
-        if (document.querySelector("#navbar").className != 'navbar-scroll') {
-          document.querySelector("#navbar").className = 'navbar-scroll'
-        }
+        this.$store.commit('ChangeClassFalse')
       }
       else {
-        if (document.querySelector("#navbar").className != 'navbar') {
-          document.querySelector("#navbar").className = 'navbar'
-        }
+        this.$store.commit('ChangeClassTrue')
+
       }
     },
-  },
-  filters: {
-    formatDate: function (value) {
-      var date = new Date(value * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-      var Y = date.getFullYear() + '-';
-      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-      var D = (date.getDate() + 1 < 10 ? '0' + (date.getDate() + 1) : date.getDate() + 1);
-      return Y + M + D;
-    }
   },
 }
 </script>
 
 <style>
-.content-range {
-  /* padding-top: 60px; */
+.home-front {
+  overflow-y: scroll;
+}
+
+.home-front,
+.home-front-show,
+.home-front-image,
+.home-front-overlay {
   width: 100%;
   height: 100vh;
+}
 
+.home-front-show {
+  position: relative;
+}
+
+.home-front-image {
+  position: absolute;
   background: url(https://pic.gksec.com/2021/03/21/01ae6a91650a7/bgss.jpg)
     no-repeat center;
 
   background-size: cover;
-
-  overflow-y: scroll;
 }
 
-.content-image {
-  width: 100%;
-  height: 100vh;
-
+.home-front-overlay {
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;

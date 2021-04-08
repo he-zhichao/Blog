@@ -1,9 +1,12 @@
 export const state = () => ({
-  class_key: ''
+  navbar_istop: true
 })
 
 export const mutations = {
-  ChangeClassKey(state, key) {
-    this.state.class_key = key
+  ChangeClassFalse(state, key) {
+    this.state.navbar_istop = false
+  },
+  ChangeClassTrue(state, key) {
+    this.state.navbar_istop = true
   }
 }

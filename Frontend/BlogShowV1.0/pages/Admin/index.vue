@@ -1,16 +1,15 @@
 <template>
   <div>
-    123
+    仪表盘
   </div>
 </template>
 
 <script>
 export default {
-  mounted () {
-    document.querySelector("#navbar").className = 'navbar-none'
-  },
   methods: {
-
+    PageChange (path) {
+      this.$router.push(path)
+    },
   },
 }
 </script>

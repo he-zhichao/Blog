@@ -1,17 +1,22 @@
 <template>
   <div>
-    <div id="wrap" class="class-range">
-      <div class="class-pageimage-range">
-        <div class="class-pageimage-overlay flex justify-center align-center">
-          <div class="class-pageimage-text">
-            分类：{{class_key}}
+    前台123
+    <!-- <div id="wrap" class="content-range">
+      <div class="content-image">
+        <div>
+          <h1 class="glitch margin-bottom">
+            Hi, JingWenxing
+          </h1>
+
+          <div class="flex justify-center">
+            <div class="subtitle">
+              生命太短暂，不要去做一些根本没有人想要的东西
+            </div>
           </div>
         </div>
-        <img class="class-pageimage"
-          src="https://pic.gksec.com/2021/03/24/07931018161d6/pexels-jaymantri-4827_gaitubao_2200x555.jpg" alt="">
       </div>
       <Bloglist :blog_lists="blog_lists" />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -19,7 +24,6 @@
 export default {
   data () {
     return {
-      class_key: '',
       blog_lists: [
         {
           id: '1000001',
@@ -34,26 +38,8 @@ export default {
     }
   },
   mounted () {
-    document.querySelector("#navbar").className = 'navbar'
-    document.querySelector("#wrap").addEventListener('scroll', this.handleScroll)
-
-    // console.log(this.$store.state.class_key)
-    if (this.$store.state.class_key == "")
-      this.$router.push('/')
-
-    this.class_key = this.$store.state.class_key
-    console.log('第一次刷新博客列表')
-  },
-  computed: {
-    listData () {
-      return this.$store.state.class_key;
-    }
-  },
-  watch: {
-    listData (val) {
-      this.class_key = this.$store.state.class_key
-      console.log('重新刷新博客列表')
-    }
+    // document.querySelector("#navbar").className = 'navbar'
+    // document.querySelector("#wrap").addEventListener('scroll', this.handleScroll)
   },
   methods: {
     handleScroll () {
@@ -71,42 +57,40 @@ export default {
       }
     },
   },
+  filters: {
+    formatDate: function (value) {
+      var date = new Date(value * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      var Y = date.getFullYear() + '-';
+      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+      var D = (date.getDate() + 1 < 10 ? '0' + (date.getDate() + 1) : date.getDate() + 1);
+      return Y + M + D;
+    }
+  },
 }
 </script>
 
 <style>
-.class-range {
+.content-range {
+  /* padding-top: 60px; */
   width: 100%;
   height: 100vh;
+
+  background: url(https://pic.gksec.com/2021/03/21/01ae6a91650a7/bgss.jpg)
+    no-repeat center;
+
+  background-size: cover;
 
   overflow-y: scroll;
 }
 
-.class-pageimage-range {
-  position: relative;
-  height: 300px;
-}
-
-.class-pageimage {
+.content-image {
   width: 100%;
-  height: 300px;
-  object-fit: cover;
-}
+  height: 100vh;
 
-.class-pageimage-overlay {
-  width: 100%;
-  height: 300px;
-
-  position: absolute;
-  z-index: 12;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   background: rgba(0, 0, 0, 0.3);
-}
-
-.class-pageimage-text {
-  color: #fff;
-  font-size: 30px;
-  font-weight: bold;
-  margin-top: 60px;
 }
 </style>

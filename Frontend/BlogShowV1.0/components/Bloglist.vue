@@ -30,7 +30,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.blog_lists)
   },
   methods: {
     PageChange (path) {
